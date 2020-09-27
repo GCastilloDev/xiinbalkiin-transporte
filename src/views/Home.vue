@@ -1,11 +1,16 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <BarraNavegacion />
   </div>
 </template>
 
 <script>
+import BarraNavegacion from "../components/BarraNavegacion";
+
 export default {
   name: "Home",
+  components: {
+    BarraNavegacion,
+  },
 };
 </script>
