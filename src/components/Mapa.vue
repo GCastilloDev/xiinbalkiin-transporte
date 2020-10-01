@@ -4,6 +4,7 @@
 
 <script>
 import L from "leaflet";
+import { db } from "../common/Firebase";
 
 export default {
   name: "MapaComponent",
@@ -16,6 +17,7 @@ export default {
   methods: {
     async init() {
       await this.pintarMapa();
+      await this.obtenerMarcadores();
     },
     pintarMapa() {
       const contenedorMapa = this.$refs.contenedorMapa;
@@ -26,11 +28,28 @@ export default {
         zoom: 18,
       });
 
-
       // le agregamos la capa de personalizacion
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 18,
       }).addTo(this.mapa);
+    },
+    async obtenerMarcadores() {
+      try {
+        const response = await db.collection("estaciones").get();
+
+        response.docs.forEach((e) => {
+          let latitud = e.data().coordenadas.latitude;
+          let longitud = e.data().coordenadas.longitude;
+
+          this.pintarMarcador([latitud, longitud]);
+        });
+      } catch (error) {
+        console.warn(error);
+      }
+    },
+    pintarMarcador(coordenadas) {
+      console.log(coordenadas);
+      L.marker(coordenadas).addTo(this.mapa);
     },
   },
 };
