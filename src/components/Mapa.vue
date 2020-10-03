@@ -5,6 +5,7 @@
 <script>
 import L from "leaflet";
 import { db } from "../common/Firebase";
+import { ruta } from "../common/Ruta";
 
 export default {
   name: "MapaComponent",
@@ -18,14 +19,15 @@ export default {
     async init() {
       await this.pintarMapa();
       await this.obtenerMarcadores();
+      await this.pintarRuta();
     },
     pintarMapa() {
       const contenedorMapa = this.$refs.contenedorMapa;
 
       // instanciamos el mapa
       this.mapa = L.map(contenedorMapa, {
-        center: [18.048627, -94.401241],
-        zoom: 18,
+        center: [18.084646, -94.402678],
+        zoom: 12,
       });
 
       // le agregamos la capa de personalizacion
@@ -51,6 +53,14 @@ export default {
       console.log(coordenadas);
       L.marker(coordenadas).addTo(this.mapa);
     },
+    pintarRuta() {
+      L.geoJSON(ruta, {
+        style: {
+          color: "#6200EA",
+          weight: 12,
+        },
+      }).addTo(this.mapa);
+    },
   },
 };
 </script>
@@ -58,7 +68,7 @@ export default {
 <style lang="scss" scoped>
 .mapa {
   width: 100%;
-  height: 90vh;
+  height: 70vh;
   z-index: 1;
 }
 </style>
