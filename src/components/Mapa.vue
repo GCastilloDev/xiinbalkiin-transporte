@@ -17,6 +17,7 @@ export default {
   }),
   methods: {
     async init() {
+      await this.obtenerPosicion();
       await this.pintarMapa();
       await this.obtenerMarcadores();
       await this.pintarRuta();
@@ -49,17 +50,47 @@ export default {
         console.warn(error);
       }
     },
-    pintarMarcador(coordenadas) {
-      console.log(coordenadas);
-      L.marker(coordenadas).addTo(this.mapa);
+    pintarMarcador(
+      coordenadas,
+      avatar = "https://firebasestorage.googleapis.com/v0/b/xiinbalkiin-4b927.appspot.com/o/markers%2Fparada-de-autobus.svg?alt=media&token=9142217d-914c-4e55-8206-dceeab2490ba"
+    ) {
+      let myIcon = L.icon({
+        iconUrl: avatar,
+        iconSize: [38, 95],
+        popupAnchor: [-3, -76],
+      });
+
+      L.marker(coordenadas, { icon: myIcon }).addTo(this.mapa);
     },
     pintarRuta() {
       L.geoJSON(ruta, {
         style: {
-          color: "#6200EA",
+          color: "#41B883",
           weight: 12,
         },
       }).addTo(this.mapa);
+    },
+    obtenerPosicion() {
+      /**
+       * Actualizar para hacer mas precisa la posicion
+       * y actualizar el marcador cuando cambien las coordenadas
+       */
+
+      if (!navigator.geolocation) {
+        alert("NO TIENES GPS");
+        return true;
+        // Mejorar la UI del mensaje
+      }
+
+      navigator.geolocation.getCurrentPosition((coordenadas) => {
+        let latitud = coordenadas.coords.latitude;
+        let longitud = coordenadas.coords.longitude;
+
+        this.pintarMarcador(
+          [latitud, longitud],
+          "https://firebasestorage.googleapis.com/v0/b/xiinbalkiin-4b927.appspot.com/o/markers%2Fpersona.svg?alt=media&token=8e15f569-a31b-409b-95c3-3791824978d4"
+        );
+      });
     },
   },
 };

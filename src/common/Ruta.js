@@ -3,12 +3,6 @@ const ruta = {
   features: [
     {
       type: 'Feature',
-      id: 'baf7f79d-464e-4796-b106-bc466d06e315',
-      geometry: { type: 'Point', coordinates: [-94.44658409, 18.12064186] },
-      properties: null,
-    },
-    {
-      type: 'Feature',
       id: '0690ecaf-9e09-493b-956c-0d5096ad6590',
       geometry: {
         type: 'LineString',
@@ -523,13 +517,7 @@ const ruta = {
         ],
       },
       properties: null,
-    },
-    {
-      type: 'Feature',
-      id: '15d34d03-e102-4c5b-81d7-03d5a8102f21',
-      geometry: { type: 'Point', coordinates: [-94.38843919, 18.02122937] },
-      properties: { name: '' },
-    },
+    }
   ],
 };
 
