@@ -10,6 +10,12 @@ const routes = [
     name: 'Home',
     component: Home,
   },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: () =>
+      import(/* webpackChunkName: "Administrador" */ '../views/Admin.vue'),
+  },
 ];
 
 const router = new VueRouter({
