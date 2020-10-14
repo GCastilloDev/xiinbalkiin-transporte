@@ -5,11 +5,12 @@
 <script>
 import L from "leaflet";
 import { ruta } from "../common/Ruta";
+import { mapState } from "vuex";
 
 export default {
   name: "MapaComponent",
   mounted() {
-    // this.init();
+    this.init();
   },
   data: () => ({
     mapa: null,
@@ -18,8 +19,16 @@ export default {
     async init() {
       await this.obtenerPosicion();
       await this.pintarMapa();
-      await this.obtenerMarcadores();
       await this.pintarRuta();
+      // await this.pintarMarcadores();
+    },
+    pintarMarcadores() {
+      this.estaciones.forEach((e) => {
+        let latitud = e.latitud;
+        let longitud = e.longitud;
+
+        this.pintarMarcador([latitud, longitud]);
+      });
     },
     pintarMapa() {
       const contenedorMapa = this.$refs.contenedorMapa;
@@ -78,6 +87,14 @@ export default {
       });
     },
   },
+  computed: {
+    ...mapState(["estaciones", "pintaMarcadores"]),
+  },
+  watch: {
+    pintaMarcadores: function() {
+      if(this.pintaMarcadores == true) this.pintarMarcadores();
+    }
+  }
 };
 </script>
 

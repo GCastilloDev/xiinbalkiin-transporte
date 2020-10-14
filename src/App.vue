@@ -19,7 +19,7 @@ export default {
     BarraNavegacion,
   },
   methods: {
-    ...mapActions(["agregarEstacion"]),
+    ...mapActions(["agregarEstacion", "pintaLosMarcadores"]),
     async obtenerDataEstaciones() {
       try {
         const response = await db.collection("estaciones").get();
@@ -39,6 +39,8 @@ export default {
 
           this.agregarEstacion(estacion);
         });
+
+        this.pintaLosMarcadores();
       } catch (error) {
         console.warn(error);
       }
