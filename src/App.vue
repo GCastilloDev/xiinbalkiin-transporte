@@ -29,8 +29,10 @@ export default {
           let longitud = e.data().coordenadas.longitude;
           let nombre = e.data().nombre;
           let imagen = e.data().urlImagen;
+          let idFirebase = e.id;
 
           let estacion = {
+            idFirebase,
             nombre,
             imagen,
             latitud,

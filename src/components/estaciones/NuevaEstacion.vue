@@ -75,7 +75,6 @@ export default {
   }),
   methods: {
     enviarDatosFirebase() {
-        
       const coordenadas = new firestore.GeoPoint(
         parseFloat(this.estacion.latitud),
         parseFloat(this.estacion.longitud)
@@ -88,7 +87,7 @@ export default {
       db.collection("estaciones")
         .add(data)
         .then(() => {
-          alert("DATOS GUARDADOS CON EXITO");
+          this.$emit("cancel");
         });
     },
   },

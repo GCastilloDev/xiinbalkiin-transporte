@@ -20,11 +20,13 @@
           >Agregar estación<v-icon right>mdi-map-marker-plus</v-icon></v-btn
         >
       </v-card-title>
-      <v-data-table
-        :headers="headers"
-        :items="estaciones"
-        :search="search"
-      ></v-data-table>
+      <v-data-table :headers="headers" :items="estaciones" :search="search">
+        <template v-slot:item.detalles="{ item }">
+          <v-btn icon color="red" @click="eliminarEstacion(item.idFirebase)"
+            ><v-icon small> mdi-delete </v-icon></v-btn
+          >
+        </template>
+      </v-data-table>
     </v-card>
     <NuevaEstacion :dialog="dialog" @cancel="dialog = false" />
   </v-container>
@@ -33,6 +35,7 @@
 <script>
 import { mapState } from "vuex";
 import NuevaEstacion from "../estaciones/NuevaEstacion";
+import { db } from "../../common/Firebase";
 
 export default {
   name: "EstacionesComponent",
@@ -50,10 +53,25 @@ export default {
         },
         { text: "Latitud", value: "latitud" },
         { text: "Longitud", value: "longitud" },
-        { text: "Detalles", value: "carbs" },
+        { text: "Detalles", value: "detalles" },
       ],
       dialog: false,
     };
+  },
+  methods: {
+    async eliminarEstacion(idFirebase) {
+      try {
+        const response = await db
+          .collection("estaciones")
+          .doc(idFirebase)
+          .delete();
+        console.log(response);
+        alert("ELIMINADO DE FORMA CORRECTA");
+      } catch (error) {
+        console.log(error);
+        alert("NO SE HA PODIDO ELIMINAR");
+      }
+    },
   },
   computed: {
     ...mapState(["estaciones"]),
